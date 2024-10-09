@@ -1,13 +1,12 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
-/* Calculator */
+class Program
+{
+    static void Main()
+    {
+        double num1 = GetValidNumber("Enter first number: ");
+        double num2 = GetValidNumber("Enter second number: ");
+        bool change = false;
 
-Console.WriteLine("Type two numbers, one at a time, press enter after each one of them");
-double num1 = Convert.ToDouble(Console.ReadLine());
-double num2 = Convert.ToDouble(Console.ReadLine());
-bool change = false;
-
-Console.WriteLine(@"
+        Console.WriteLine(@"
     + - add
     - - subtract
     * - multiply
@@ -17,58 +16,88 @@ Console.WriteLine(@"
     q - quit
 What do you want to do?");
 
+        while (true)
+        {
+            if (change)
+            {
+                num1 = GetValidNumber("Enter first number: ");
+                num2 = GetValidNumber("Enter second number: ");
+                change = false;
+                Console.WriteLine("What do you want to do?");
+            }
 
-while (true)
-{
-    if (change)
-    {
-        num1 = Convert.ToDouble(Console.ReadLine());
-        num2 = Convert.ToDouble(Console.ReadLine());
-        change = false;
-        Console.WriteLine("What do you want to do?");
+            char choice = Console.ReadKey().KeyChar;
+            // bierze od razu jeden przycisk
+            Console.WriteLine();
+
+            switch (choice)
+            {
+                case '+':
+                    Console.WriteLine(num1 + num2);
+                    break;
+
+                case '-':
+                    Console.WriteLine(num1 - num2);
+                    break;
+
+                case '*':
+                    Console.WriteLine(num1 * num2);
+                    break;
+
+                case '/':
+                    if (num2 != 0)
+                    {
+                        Console.WriteLine(num1 / num2);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Don't divide by 0!");
+                    }
+                    break;
+
+                case '%':
+                    if (num2 != 0)
+                    {
+                        Console.WriteLine(num1 % num2);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Don't modulo by 0!");
+                    }
+                    break;
+
+                case 'q':
+                    Environment.Exit(0);
+                    break;
+
+                case 'x':
+                    change = true;
+                    break;
+
+                default:
+                    Console.WriteLine("Wrong choice!");
+                    break;
+            }
+        }
     }
 
-    char choice = Convert.ToChar(Console.ReadLine());
-
-    switch (choice)
+    static double GetValidNumber(string prompt)
     {
-        case '+':
-            Console.WriteLine(num1 + num2);
-            break;
+        double number;
+        string input;
 
-        case '-':
-            Console.WriteLine(num1 - num2);
-            break;
-
-        case '*':
-            Console.WriteLine(num1 * num2);
-            break;
-
-        case '/':
-            if(num2 != 0)
+        while (true)
+        {
+            Console.Write(prompt);
+            input = Console.ReadLine();
+            if (double.TryParse(input, out number))
             {
-                Console.WriteLine(num1 / num2);
+                return number;
             }
             else
             {
-                Console.WriteLine("Don't divide by 0!");
+                Console.WriteLine("This is not a valid number. Please try again.");
             }
-            break;
-
-        case '%':
-            Console.WriteLine(num1 % num2);
-            break;
-
-        case 'q':
-            Environment.Exit(0);
-            break;
-
-        case 'x':
-            change = true;
-            break;
-
-        default:
-            Console.WriteLine("Wrong choice!");
-            break;
+        }
     }
 }
